@@ -1,3 +1,21 @@
+function colourCell() {
+  const colourOptions = document.getElementById("colour-options");
+  const selectedIndex = colourOptions.options.selectedIndex;
+  const selectedValue = colourOptions.options[selectedIndex].value;
+  
+  if (selectedValue === "random") {
+    return getRandomColour();
+  }
+  return selectedValue;
+}
+
+function getRandomColour() {
+  const r = Math.random() * 255;
+  const g = Math.random() * 255;
+  const b = Math.random() * 255;
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
 function createGrid(cellSize) {
   container.innerHTML = "";
 
@@ -9,7 +27,7 @@ function createGrid(cellSize) {
       cell.classList.add("cell");
 
       cell.addEventListener("mouseenter", () => {
-        cell.classList.add("coloured");
+        cell.style.backgroundColor = colourCell();
       });
 
       cell.style.height = `${GRID_MAX_SIZE / cellSize}px`;
