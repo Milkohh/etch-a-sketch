@@ -1,12 +1,12 @@
-function colourCell() {
+function colourCell(e) {
   const colourOptions = document.getElementById("colour-options");
   const selectedIndex = colourOptions.options.selectedIndex;
   const selectedValue = colourOptions.options[selectedIndex].value;
   
   if (selectedValue === "random") {
-    return getRandomColour();
+    e.target.style.backgroundColor = getRandomColour();
   }
-  return selectedValue;
+  e.target.style.backgroundColor = selectedValue;
 }
 
 function getRandomColour() {
@@ -26,9 +26,7 @@ function createGrid(cellSize) {
       const cell = document.createElement("div");
       cell.classList.add("cell");
 
-      cell.addEventListener("mouseenter", () => {
-        cell.style.backgroundColor = colourCell();
-      });
+      cell.addEventListener("mouseenter", colourCell);
 
       cell.style.height = `${GRID_MAX_SIZE / cellSize}px`;
       cell.style.width = `${GRID_MAX_SIZE / cellSize}px`;
@@ -38,6 +36,13 @@ function createGrid(cellSize) {
 
     container.appendChild(colDiv);
   }
+}
+
+function clearGrid() {
+  const cells = document.querySelectorAll(".cell");
+  cells.forEach((cell) => {
+    cell.style.backgroundColor = "white";
+  });
 }
 
 function resizeGrid() {
@@ -67,7 +72,10 @@ const GRID_MAX_SIZE = 700;
 const container = document.getElementById("container");
 container.style.width = `${GRID_MAX_SIZE}px`;
 
-const resetBtn = document.getElementById("reset-btn");
-resetBtn.addEventListener("click", resizeGrid);
+const resizeBtn = document.getElementById("resize-btn");
+const clearBtn = document.getElementById("clear-btn");
+
+resizeBtn.addEventListener("click", resizeGrid);
+clearBtn.addEventListener("click", clearGrid);
 
 createGrid(16);
