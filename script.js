@@ -2,7 +2,7 @@ function colourCell(e) {
   const colourOptions = document.getElementById("colour-options");
   const selectedIndex = colourOptions.options.selectedIndex;
   const selectedValue = colourOptions.options[selectedIndex].value;
-  
+
   if (selectedValue === "random") {
     e.target.style.backgroundColor = getRandomColour();
   }
