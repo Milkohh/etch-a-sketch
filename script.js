@@ -1,10 +1,10 @@
-function createGrid(xWidth, yWidth) {
+function createGrid(cellSize) {
   container.innerHTML = "";
 
-  for (let i = 0; i < xWidth; i++) {
+  for (let i = 0; i < cellSize; i++) {
     const colDiv = document.createElement("div");
 
-    for (let j = 0; j < yWidth; j++) {
+    for (let j = 0; j < cellSize; j++) {
       const cell = document.createElement("div");
       cell.classList.add("cell");
 
@@ -12,8 +12,8 @@ function createGrid(xWidth, yWidth) {
         cell.classList.add("coloured");
       });
 
-      cell.style.height = "30px";
-      cell.style.width = "30px";
+      cell.style.height = `${GRID_MAX_SIZE / cellSize}px`;
+      cell.style.width = `${GRID_MAX_SIZE / cellSize}px`;
 
       colDiv.appendChild(cell);
     }
@@ -22,10 +22,34 @@ function createGrid(xWidth, yWidth) {
   }
 }
 
-const container = document.getElementById("container");
-const resetBtn = document.getElementById("reset-btn");
-resetBtn.addEventListener("click", () => {
-  createGrid(16, 16);
-});
+function resizeGrid() {
+  let newCellSize;
+  let validInput = false;
 
-createGrid(16, 16);
+  // Validate the user input
+  do {
+    newCellSize = parseInt(prompt("How many squares per side? "), 10);
+
+    if (!newCellSize) {
+      alert("New size must be a number between 1-100!");
+    } else if (newCellSize < 1 || newCellSize > 100) {
+      alert(
+        "Number not in range of 1-100! Please pick a number between 1-100."
+      );
+    } else {
+      validInput = true;
+    }
+  } while (!validInput);
+
+  createGrid(newCellSize);
+}
+
+const GRID_MAX_SIZE = 700;
+
+const container = document.getElementById("container");
+container.style.width = `${GRID_MAX_SIZE}px`;
+
+const resetBtn = document.getElementById("reset-btn");
+resetBtn.addEventListener("click", resizeGrid);
+
+createGrid(16);
